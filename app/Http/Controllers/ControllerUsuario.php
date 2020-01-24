@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Usuario;
 
+use App\Http\Controllers\Utilidades\UUID;
+
 use App\Http\Helper\ResponseBuilder;
 
 use Illuminate\Http\Request;
@@ -14,6 +16,20 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class ControllerUsuario extends BaseController
 {
+
+    public function _construct() {
+        $this -> Middleware('auth', ['only' => 
+            
+            [
+                'verPerfil'
+            ]
+
+
+        ]);
+    }
+
+    private $profilePicturesFolder = "profile_pictures";
+
     public function registrarse(Request $request)
     {
     	if ($request->isjson()){
@@ -34,8 +50,10 @@ class ControllerUsuario extends BaseController
 		    	$usuario -> correo = $request -> correo;
 		    	$usuario -> password = Hash::make($request -> password);
 		    	$usuario -> descripcion = "";
-		    	$usuario -> foto_perfil = "";
+		    	$usuario -> foto_perfil = "https://via.placeholder.com/150x150";
 		    	$usuario -> celular = "";
+                $usuario -> status = True;
+                $usuario -> external_id = UUID::uuid_v4();
 	            
 	    		$usuario->save();
 
@@ -58,23 +76,36 @@ class ControllerUsuario extends BaseController
             $user = Usuario::where('username', $username)->first();
 
             if (!empty($user)) {
-                if (Hash::check($password, $user->password)) {
+                if (Hash::check($password, $user->password) && $user -> status) {
                     $status = true;
                     $info = "Correcto";
+                    $data = $user;
+                } elseif (!$user -> status) {
+                    $status = false;
+                    $info = "Estas baneado por tonto";
+                    $data = "";
                 }else{
                     $status = false;
                     $info = "Credenciales Incorrectas";
+                    $data = "";
                 }
             }else{
                 $status = false;
                 $info = "Credenciales Incorrectas";
+                $data = "";
             }
-            return ResponseBuilder::result($status, $info);
+            return ResponseBuilder::result($status, $info, $data);
             
         } else {
             return response(["msg" => "No esta enviando formato JSON", "tittle" => "error_format"], 404);
         }
     	
+
+    }
+
+    public function verPerfil(Request $request){
+
+        return response("hola");
 
     }
 

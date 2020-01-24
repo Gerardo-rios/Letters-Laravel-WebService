@@ -33,6 +33,10 @@ $router->group(['prefix'=>'/usuario'], function($router){
 
 });
 
+$router->get('/hola', 'ControllerUsuario@verPerfil');
+
+	
+
 $router->group(['prefix'=>'/posts'], function($router){
 
 	$router->get('/', 'ControllerPost@listar_posts');

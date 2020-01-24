@@ -13,7 +13,7 @@ class Usuario extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre', 'username', 'descripcion', 'fecha_nacimiento', 'foto_perfil', 'celular', 'correo'
+        'nombre', 'username', 'descripcion', 'fecha_nacimiento', 'foto_perfil', 'celular', 'correo', 'status'
     ];
 
     public $timestamps = false;
@@ -24,6 +24,25 @@ class Usuario extends Model
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password', 'external_id'
     ];
+
+
+    /**
+     * Helper methods
+     */
+
+    public function tieneFoto(): bool {
+        return !is_null($this->attributes['foto_perfil']) 
+        && !empty($this->attributes['foto_perfil']);
+    }
+
+    /**
+     * Accessors and Mutators
+     */
+
+     public function obtenerFoto() {
+        return url('profile_pictures/' . $this->attributes['foto_perfil']);
+     }
+
 }
