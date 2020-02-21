@@ -21,6 +21,11 @@ $router->group(['prefix'=>'/usuario'], function($router){
 
 	$router->post('/logear', 'ControllerUsuario@logearse');
 
+	$router->post('/actualizar_foto', 'ControllerUsuario@subirFotoPerfil');
+
+	$router->post('/modificar_perfil', 'ControllerUsuario@ModificarDatos');
+
+
 	/*$router->get('/all', 'ControladorCliente@index');
 
 	$router->get('/get/{cedula}', 'ControladorCliente@getCliente');

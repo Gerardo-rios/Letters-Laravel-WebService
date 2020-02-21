@@ -12,12 +12,14 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Str;
+
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class ControllerUsuario extends BaseController
 {
 
-    public function _construct() {
+    /*public function _construct() {
         $this -> Middleware('auth', ['only' => 
             
             [
@@ -26,7 +28,7 @@ class ControllerUsuario extends BaseController
 
 
         ]);
-    }
+    }*/
 
     private $profilePicturesFolder = "profile_pictures";
 
@@ -82,7 +84,7 @@ class ControllerUsuario extends BaseController
                     $data = $user;
                 } elseif (!$user -> status) {
                     $status = false;
-                    $info = "Estas baneado por tonto";
+                    $info = "Estas baneado hasta nuevo aviso";
                     $data = "";
                 }else{
                     $status = false;
@@ -103,11 +105,52 @@ class ControllerUsuario extends BaseController
 
     }
 
-    public function verPerfil(Request $request){
+    public function subirFotoPerfil(Request $request) 
+    {
+        //if ($request->isjson()) {
+            if ($request->hasFile('image')) {
+                $file = $request-> file('image');
+                $useridenti = $request -> identificador;
 
-        return response("hola");
+                $filename = Str::random(10) . '.' .$file->getClientOriginalExtension();
+        
+                $user = Usuario::where('user_id', $useridenti)->first();
+                $file->move($this->profilePicturesFolder,$filename);// subimos al servidor
+                $user-> foto_perfil = $filename; // guardamos el nombre en la bd
+                $user->save(); // guardamos los cambios.
 
+                return response()->json(["msg" => "Foto subida exitosamente", "title" => "actualizada"], 200); 
+            } else {
+                return response()->json(["msg" => "No se esta enviado foto", "title" => "no foto"], 404); 
+            }
+            
+      /*  } else {
+
+            return response(["msg" => "No esta enviando formato JSON", "tittle" => "error_format"], 404);
+
+        }*/
+        
     }
+
+    public function ModificarDatos(Request $request){
+
+        if ($request->isjson()){
+
+        $identificador = $request -> identificador;
+
+        $user = Usuario::where('user_id', $identificador)->first();;
+
+        $user->nombre = $request-> input('nombre');
+        $user->descripcion = $request-> input('descripcion');
+        $user->celular = $request-> input('celular');
+        $user->save();
+
+        return response(["msg" => "Datos actualizados", "tittle" => "Modificado"], 200);
+
+        } else {
+            return response(["msg" => "No esta enviando formato JSON", "tittle" => "error_format"], 404);
+        }
+    }    
 
     
 }

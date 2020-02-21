@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model 
 {
     protected $table = 'modelo_user';
+    protected $primaryKey = 'user_id';
     /**
      * The attributes that are mass assignable.
      *
@@ -26,7 +27,32 @@ class Usuario extends Model
     protected $hidden = [
         'password', 'external_id'
     ];
+/*
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(Usuario::class, 'modelo_seguidores', 'user_id', 'seguidor_id');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(Usuario::class, 'modelo_seguidores', 'seguidor_id', 'user_id');
+    }
+*/
 
     /**
      * Helper methods
