@@ -36,11 +36,7 @@ $router->group(['prefix'=>'/usuario'], function($router){
 
 	$router->put('/modi/{cedula}', 'ControladorCliente@putCliente');*/
 
-});
-
-$router->get('/hola', 'ControllerUsuario@verPerfil');
-
-	
+});	
 
 $router->group(['prefix'=>'/posts'], function($router){
 

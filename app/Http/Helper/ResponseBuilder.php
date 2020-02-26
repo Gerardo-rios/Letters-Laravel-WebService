@@ -6,11 +6,11 @@ class ResponseBuilder{
 
 	public static function result($status="", $info="", $data=""){
 
-		return [
+		return response()->json([
 			"success"=>$status,
 			"information"=>$info,
 			"data"=>$data,
-		];
+		]);
 
 	}
 
