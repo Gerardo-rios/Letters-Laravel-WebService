@@ -31,42 +31,37 @@ class ControllerUsuario extends BaseController
     }*/
 
     private $profilePicturesFolder = "profile_pictures";
+    
 
     public function registrarse(Request $request)
     {
-    	if ($request->isjson()){
 
-    		$validar = Usuario::where("username", $request->username)->first();
-    		$verificar = Usuario::where("correo", $request->correo)->first();
+        $validar = Usuario::where("username", $request->username)->first();
+    	$verificar = Usuario::where("correo", $request->correo)->first();
 
-    		if ($validar) {
-    			return response()->json(["msg" => "Ese username ya esta ocupado", "title" => "error_user"]);
-    		} elseif ($verificar) {
-    			return response()->json(["msg" => "Ese correo ya se ha registrado", "title" => "error_correo"]);
-    		} else {
-    			$usuario = new Usuario();
-
-		    	$usuario -> nombre = "";
-		    	$usuario -> username = $request -> username;
-		    	$usuario -> fecha_nacimiento = $request -> fecha_nacimiento;
-		    	$usuario -> correo = $request -> correo;
-		    	$usuario -> password = Hash::make($request -> password);
-		    	$usuario -> descripcion = "";
-		    	$usuario -> foto_perfil = "https://via.placeholder.com/150x150";
-		    	$usuario -> celular = $request -> telefono;
-                $usuario -> status = True;
-                $usuario -> external_id = UUID::uuid_v4();
-	            
-	    		$usuario->save();
-
-    			return response()->json(["msg" => "Registrado exitosamente", "title" => "registrado"]);
-    		}
-    		
+    	if ($validar) {
+    		return response()->json(["msg" => "Ese username ya esta ocupado", "title" => "error_user"]);
+    	} elseif ($verificar) {
+    		return response()->json(["msg" => "Ese correo ya se ha registrado", "title" => "error_correo"]);
     	} else {
+    		$usuario = new Usuario();
 
-    		return response()->json(["msg" => "No esta enviando formato JSON", "title" => "error_format"]);
+		    $usuario -> nombre = "";
+		    $usuario -> username = $request -> username;
+		    $usuario -> correo = $request -> correo;
+		    $usuario -> password = Hash::make($request -> password);
+		    $usuario -> descripcion = "";
+		    $usuario -> foto_perfil = "https://via.placeholder.com/150x150";
+		    $usuario -> celular = $request -> telefono;
+            $usuario -> status = True;
+            $usuario -> external_id = UUID::uuid_v4();
+	           
+	    	$usuario->save();
 
+
+    		return response()->json(["msg" => "Registrado exitosamente", "title" => "registrado"]);
     	}
+
     }
 
     public function logearse(Request $request)
