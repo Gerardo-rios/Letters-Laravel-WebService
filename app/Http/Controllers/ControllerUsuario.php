@@ -137,7 +137,6 @@ class ControllerUsuario extends BaseController
 
         $user->nombre = $request-> input('nombre');
         $user->descripcion = $request-> input('descripcion');
-        $user->celular = $request-> input('celular');
         $user->save();
 
         return response()->json(["msg" => "Datos actualizados", "title" => "actualizado"]); 

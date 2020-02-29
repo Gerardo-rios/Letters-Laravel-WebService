@@ -40,7 +40,17 @@ $router->group(['prefix'=>'/usuario'], function($router){
 
 $router->group(['prefix'=>'/posts'], function($router){
 
-	$router->get('/', 'ControllerPost@listar_posts');
+	$router->get('/listar_todos', 'ControllerPost@listar_posts');
+
+	$router->get('/listar_user_posts/{identificador}', 'ControllerPost@posts_user_logeado');	
+
+	$router->post('/postear', 'ControllerPost@crear_post');
 
 });
 
+
+$router->group(['prefix'=>'/like'], function($router){
+
+	$router->post('/', 'ControllerLike@dar_like');
+
+});

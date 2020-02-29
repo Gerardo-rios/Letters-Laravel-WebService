@@ -14,7 +14,7 @@ class Usuario extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre', 'username', 'descripcion', 'foto_perfil', 'celular', 'correo', 'status'
+        'nombre', 'username', 'descripcion', 'foto_perfil', 'celular', 'correo', 'status', 'external_id'
     ];
 
     public $timestamps = false;
@@ -25,7 +25,7 @@ class Usuario extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 'external_id'
+        'password'
     ];
 /*
     public function posts()
