@@ -26,19 +26,9 @@ $router->group(['prefix'=>'/usuario'], function($router){
 	$router->post('/modificar_perfil', 'ControllerUsuario@ModificarDatos');
 
 
-	/*$router->get('/all', 'ControladorCliente@index');
-
-	$router->get('/get/{cedula}', 'ControladorCliente@getCliente');
-
-	$router->get('/obt/{apellido}', 'ControladorCliente@getClienteApe');
-
-	$router->post('/create', 'ControladorCliente@createCliente');
-
-	$router->put('/modi/{cedula}', 'ControladorCliente@putCliente');*/
-
 });	
 
-$router->group(['prefix'=>'/posts'], function($router){
+$router->group(['prefix'=>'/post'], function($router){
 
 	$router->get('/listar_todos', 'ControllerPost@listar_posts');
 
@@ -53,4 +43,38 @@ $router->group(['prefix'=>'/like'], function($router){
 
 	$router->post('/', 'ControllerLike@dar_like');
 
+	$router->get('/contar', 'ControllerLike@contar_likes');
+
+	$router->post('/quitar', 'ControllerLike@quitar_like');
+
 });
+
+$router->group(['prefix'=>'/comentar'], function($router){
+
+	$router->post('/', 'ControllerComentario@comentar');
+
+	$router->get('/listar', 'ControllerComentario@listar_comentarios');
+	
+});
+
+$router->group(['prefix'=>'/seguir'], function($router){
+
+	$router->post('/', 'ControllerSeguidores@seguir');
+
+	$router->get('/listar_seguidos', 'ControllerSeguidores@listar_seguidos');
+
+	$router->get('/listar_seguidores', 'ControllerSeguidores@listar_seguidores');
+
+	$router->get('/contar_seguidores', 'ControllerSeguidores@contar_seguidores');
+	
+});
+
+$router->get('/mostrar_perfil/{id}', 'ControllerUsuario@verOtroPerfil');
+
+
+/*$router->get('/post/{id}', ['middleware' => 'auth', function (Request $request, $id) {
+    $user = Auth::user();
+
+    $user = $request->user();
+
+}]);*/

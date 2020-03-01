@@ -67,6 +67,5 @@ class ControllerPost extends BaseController
         }
 
     }
-
     
 }

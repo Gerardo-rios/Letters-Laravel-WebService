@@ -144,7 +144,19 @@ class ControllerUsuario extends BaseController
         } else {
             return response()->json(["msg" => "No se esta enviado formato json", "title" => "no json"]); 
         }
-    }    
+    } 
+
+    public function verOtroPerfil($id){
+
+        $user = Usuario::find($id);
+        if ($user) {
+            return response()->json(["msg" => "ok", "user" => $user]);
+        } else {
+            return response()->json(["msg" => "bad", "user" => ""]);
+        }
+        
+
+    }   
 
     
 }

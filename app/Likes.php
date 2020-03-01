@@ -11,4 +11,14 @@ class Likes extends Model
 
     public $timestamps = false;
 
+    public function user()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
 }
