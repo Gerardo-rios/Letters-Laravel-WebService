@@ -56,15 +56,11 @@ class ControllerPost extends BaseController
         }
     }
 
-    public function posts_user_logeado(Request $request, $identificador){
+    public function posts_user_logeado(Request $request){
 
-        if ($request->isjson()){
-            $posts = Post::where('user_id', $identificador)->get();
+        $posts = Post::where('user_id', $request->identificador)->get();
             
-            return response()->json($posts);     
-        } else {
-            return response()->json(["msg" => "No esta enviando formato JSON", "tittle" => "error_format"]);
-        }
+        return response()->json(["p" => $posts]);     
 
     }
     

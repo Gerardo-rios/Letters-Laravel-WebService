@@ -131,32 +131,36 @@ class ControllerUsuario extends BaseController
 
         if ($request->isjson()){
 
-        $identificador = $request -> identificador;
+            $identificador = $request -> identificador;
 
-        $user = Usuario::where('user_id', $identificador)->first();;
+            $user = Usuario::where('user_id', $identificador)->first();;
 
-        $user->nombre = $request-> input('nombre');
-        $user->descripcion = $request-> input('descripcion');
-        $user->save();
+            if ($user) {
+           
+                $user->nombre = $request -> nombre;
+                $user->descripcion = $request -> descripcion;
+                $user->save();
 
-        return response()->json(["msg" => "Datos actualizados", "title" => "actualizado"]); 
+                return response()->json(["msg" => "Datos actualizados", "title" => "actualizado", "user" => $user]); 
+            } else {
+                return response()->json(["msg" => "No encontrado", "title" => "error"]); 
+            }  
 
         } else {
             return response()->json(["msg" => "No se esta enviado formato json", "title" => "no json"]); 
         }
     } 
 
-    public function verOtroPerfil($id){
+    public function obtenerme(Request $request){
 
-        $user = Usuario::find($id);
+        $user = Usuario::find($request->id);
         if ($user) {
             return response()->json(["msg" => "ok", "user" => $user]);
         } else {
             return response()->json(["msg" => "bad", "user" => ""]);
         }
-        
 
-    }   
+    }
 
     
 }

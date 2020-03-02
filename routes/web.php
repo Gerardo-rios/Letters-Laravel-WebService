@@ -32,7 +32,7 @@ $router->group(['prefix'=>'/post'], function($router){
 
 	$router->get('/listar_todos', 'ControllerPost@listar_posts');
 
-	$router->get('/listar_user_posts/{identificador}', 'ControllerPost@posts_user_logeado');	
+	$router->get('/listar_user_posts', 'ControllerPost@posts_user_logeado');	
 
 	$router->post('/postear', 'ControllerPost@crear_post');
 
@@ -66,10 +66,13 @@ $router->group(['prefix'=>'/seguir'], function($router){
 	$router->get('/listar_seguidores', 'ControllerSeguidores@listar_seguidores');
 
 	$router->get('/contar_seguidores', 'ControllerSeguidores@contar_seguidores');
+
+	$router->get('/contar_seguidos', 'ControllerSeguidores@contar_seguidos');
 	
 });
 
-$router->get('/mostrar_perfil/{id}', 'ControllerUsuario@verOtroPerfil');
+$router->get('/obtener', 'ControllerUsuario@obtenerme');
+
 
 
 /*$router->get('/post/{id}', ['middleware' => 'auth', function (Request $request, $id) {

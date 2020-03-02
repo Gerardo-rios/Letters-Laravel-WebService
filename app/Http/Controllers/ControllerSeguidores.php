@@ -58,7 +58,15 @@ class ControllerSeguidores extends BaseController
 
 		$contar = DB::select("SELECT count(seguidor_id) as numero_seguidores FROM modelo_seguidores WHERE seguido_id = $request->authid");
 
-		return response()->json($contar);
+		return response()->json(["a" => $contar]);
+	}
+
+	public function contar_seguidos(Request $request){
+
+		$contar = DB::select("SELECT count(seguido_id) as numero_seguidos FROM modelo_seguidores WHERE seguidor_id = $request->authid");
+
+		return response()->json(["a" => $contar]);
+
 	}
 
 }
