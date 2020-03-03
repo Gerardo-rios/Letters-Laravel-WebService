@@ -25,7 +25,7 @@ $router->group(['prefix'=>'/usuario'], function($router){
 
 	$router->post('/modificar_perfil', 'ControllerUsuario@ModificarDatos');
 
-
+	$router->get('/contar', 'ControllerUsuario@conteo');
 });	
 
 $router->group(['prefix'=>'/post'], function($router){
@@ -65,9 +65,9 @@ $router->group(['prefix'=>'/seguir'], function($router){
 
 	$router->get('/listar_seguidores', 'ControllerSeguidores@listar_seguidores');
 
-	$router->get('/contar_seguidores', 'ControllerSeguidores@contar_seguidores');
+	#$router->get('/contar_seguidores', 'ControllerSeguidores@contar_seguidores');
 
-	$router->get('/contar_seguidos', 'ControllerSeguidores@contar_seguidos');
+	#$router->get('/contar_seguidos', 'ControllerSeguidores@contar_seguidos');
 	
 });
 

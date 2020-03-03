@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\DB;
+
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class ControllerUsuario extends BaseController
@@ -162,7 +164,16 @@ class ControllerUsuario extends BaseController
 
     }
 
-    
+    public function conteo(Request $request){
+
+        $contar_seguidores = DB::select("SELECT count(seguidor_id) as numero_seguidores FROM modelo_seguidores WHERE seguido_id = $request->authid");
+
+        $contar_seguidos = DB::select("SELECT count(seguido_id) as numero_seguidos FROM modelo_seguidores WHERE seguidor_id = $request->authid");
+
+        return response()->json(["seguidores" => $contar_seguidores, "seguidos" => $contar_seguidos]);
+
+    }
+
 }
 
 /* pa deshashear la passwor
