@@ -14,7 +14,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'contenido', 'descripcion'
+        'contenido'
     ];
 
     public function getDateFormat()

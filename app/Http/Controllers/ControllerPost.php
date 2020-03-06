@@ -18,50 +18,63 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class ControllerPost extends BaseController
 {
 
-    private $carpetaFotosUsuario = "fotos";
+    //private $carpetaFotosUsuario = "fotos";
 
     public function listar_posts(Request $request)
     {
         if ($request->isjson()){
             $posts = Post::all();
             
-            return response()->json($posts, 200);     
+            $status = true;
+            $info = "Datos obtenidos con exito";
+            $data = "";
+            return ResponseBuilder::result($status, $info, $data);     
         } else {
-            return response()->json(["msg" => "No esta enviando formato JSON", "tittle" => "error_format"]);
+            $status = false;
+            $info = "No esta enviando formato json";
+            $data = "";
+            return ResponseBuilder::result($status, $info, $data);
         }
 
     }
 
     public function crear_post(Request $request)
     {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $description = $request-> descripcion;
-            $filename = Str::random(10) . '.' .$file->getClientOriginalExtension();
-        
-            $useridenti = $request -> identificador;
+        if ($request->isjson()) {
             $post = new Post;
-            $file->move($this->carpetaFotosUsuario, $filename);
-        
-            $post->user_id = $useridenti; 
-            $post->contenido = $filename;
-            $post->descripcion = $description;
-            $post->etiquetas = ""; 
+            $post->user_id = $request -> identificador;
+            $post->contenido = $request-> contenido;
             $post->save();
 
-            return response()->json(["msg" => "el exito", "title" => "subido"]); 
-
+            $status = true;
+            $info = "Posteado Exitosamente";
+            $data = $post;
+            return ResponseBuilder::result($status, $info, $data);    
         } else {
-            return response()->json(["msg" => "No se esta enviado foto", "title" => "no foto"]); 
+            $status = false;
+            $info = "No esta enviando formato json";
+            $data = "";
+            return ResponseBuilder::result($status, $info, $data);
         }
+        
     }
 
     public function posts_user_logeado(Request $request){
 
         $posts = Post::where('user_id', $request->identificador)->get();
-            
-        return response()->json(["p" => $posts]);     
+        
+        if ($posts) {
+            $status = true;
+            $info = "Listados con exito";
+            $data = $posts;
+            return ResponseBuilder::result($status, $info, $data);
+        } else {
+            $status = true;
+            $info = "Nada para mostrar";
+            $data = "";
+            return ResponseBuilder::result($status, $info, $data);
+        }     
 
     }
     
-}
+}   

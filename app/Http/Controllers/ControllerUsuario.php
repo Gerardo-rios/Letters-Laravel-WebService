@@ -21,48 +21,40 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class ControllerUsuario extends BaseController
 {
 
-    /*public function _construct() {
-        $this -> Middleware('auth', ['only' => 
-            
-            [
-                'verPerfil'
-            ]
-
-
-        ]);
-    }*/
-
     private $profilePicturesFolder = "profile_pictures";
     
 
     public function registrarse(Request $request)
     {
+        if ($request->isjson()) {
+            $validar = Usuario::where("username", $request->username)->first();
+            $verificar = Usuario::where("correo", $request->correo)->first();
 
-        $validar = Usuario::where("username", $request->username)->first();
-    	$verificar = Usuario::where("correo", $request->correo)->first();
+            if ($validar) {
+                return response()->json(["msg" => "Ese username ya esta ocupado", "title" => "error_user"]);
+            } elseif ($verificar) {
+                return response()->json(["msg" => "Ese correo ya se ha registrado", "title" => "error_correo"]);
+            } else {
+                $usuario = new Usuario();
 
-    	if ($validar) {
-    		return response()->json(["msg" => "Ese username ya esta ocupado", "title" => "error_user"]);
-    	} elseif ($verificar) {
-    		return response()->json(["msg" => "Ese correo ya se ha registrado", "title" => "error_correo"]);
-    	} else {
-    		$usuario = new Usuario();
-
-		    $usuario -> nombre = "";
-		    $usuario -> username = $request -> username;
-		    $usuario -> correo = $request -> correo;
-		    $usuario -> password = Hash::make($request -> password);
-		    $usuario -> descripcion = "";
-		    $usuario -> foto_perfil = "https://via.placeholder.com/150x150";
-		    $usuario -> celular = $request -> telefono;
-            $usuario -> status = True;
-            $usuario -> external_id = UUID::uuid_v4();
-	           
-	    	$usuario->save();
+                $usuario -> nombre = Str::random(10);
+                $usuario -> username = $request -> username;
+                $usuario -> correo = $request -> correo;
+                $usuario -> password = Hash::make($request -> password);
+                $usuario -> descripcion = "";
+                $usuario -> foto_perfil = "default_user.png";
+                $usuario -> celular = $request -> telefono;
+                $usuario -> status = True;
+                $usuario -> external_id = UUID::uuid_v4();
+               
+                $usuario->save();
 
 
-    		return response()->json(["msg" => "Registrado exitosamente", "title" => "registrado"]);
-    	}
+                return response()->json(["msg" => "Registrado exitosamente", "title" => "registrado"]);
+            }   
+        } else {
+            return response()->json(["msg" => "No esta enviando formato json", "title" => "error_format"]);
+        }
 
     }
 
@@ -120,12 +112,6 @@ class ControllerUsuario extends BaseController
             } else {
                 return response()->json(["msg" => "No se esta enviado foto", "title" => "no foto"]); 
             }
-            
-      /*  } else {
-
-            return response(["msg" => "No esta enviando formato JSON", "tittle" => "error_format"], 404);
-
-        }*/
         
     }
 
