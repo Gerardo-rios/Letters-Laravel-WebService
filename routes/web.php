@@ -36,14 +36,16 @@ $router->group(['prefix'=>'/post'], function($router){
 
 	$router->post('/postear', 'ControllerPost@crear_post');
 
+	$router->get('/contar', 'ControllerPost@contar_likes_coments');
+
+	$router->post('/borrar', 'ControllerPost@borrar_poste');
+
 });
 
 
 $router->group(['prefix'=>'/like'], function($router){
 
 	$router->post('/', 'ControllerLike@dar_like');
-
-	$router->get('/contar', 'ControllerLike@contar_likes');
 
 	$router->post('/quitar', 'ControllerLike@quitar_like');
 

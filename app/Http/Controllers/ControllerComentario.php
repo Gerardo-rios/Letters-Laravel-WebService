@@ -31,10 +31,14 @@ class ControllerComentario extends BaseController
 
 	public function listar_comentarios(Request $request){
 
-		$respuesta = Comentario::where('post_id', $request->postid)->get();
-
-		return response()->json($respuesta);
+		$respuesta = DB::select("SELECT modelo_comentario.*, modelo_user.username, modelo_user.foto_perfil from modelo_comentario,modelo_user where modelo_comentario.post_id = $request->postid and modelo_comentario.user_id = modelo_user.user_id");
+		/**/
+		$status = true;
+		$info = "Listados";
+		$data = $respuesta;
+		return ResponseBuilder::result($status, $info, $data);
 
 	}
+
 
 }

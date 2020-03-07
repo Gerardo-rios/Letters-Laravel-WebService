@@ -37,14 +37,6 @@ class ControllerLike extends BaseController
 
 	} 
 
-	public function contar_likes(Request $request){
-
-		$contar = DB::select("SELECT count(post_id_id) as likes FROM modelo_likes WHERE post_id_id = $request->postid");
-
-		 return response()->json($contar); 
-
-	}
-
 	public function quitar_like(Request $request){
 
 		$borrar = DB::delete("DELETE FROM modelo_likes WHERE post_id_id = $request->postid AND user_id_id = $request->userid");

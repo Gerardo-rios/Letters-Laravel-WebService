@@ -10,7 +10,7 @@ class Likes extends Model
     protected $primaryKey = 'like_id';
 
     public $timestamps = false;
-
+/*
     public function user()
     {
         return $this->belongsTo(Usuario::class);
@@ -20,5 +20,5 @@ class Likes extends Model
     {
         return $this->belongsTo(Post::class);
     }
-
+*/
 }
