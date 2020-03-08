@@ -38,7 +38,9 @@ $router->group(['prefix'=>'/post'], function($router){
 
 	$router->get('/contar', 'ControllerPost@contar_likes_coments');
 
-	$router->post('/borrar', 'ControllerPost@borrar_poste');
+	//$router->post('/borrar', 'ControllerPost@borrar_poste');
+
+	$router->get('/obtener', 'ControllerPost@obtener_post');
 
 });
 

@@ -84,6 +84,24 @@ class ControllerPost extends BaseController
 
     }
 
+    public function obtener_post(Request $request){
+
+        $post = DB::select("SELECT modelo_post.* , modelo_user.username, modelo_user.foto_perfil FROM modelo_post, modelo_user WHERE modelo_post.post_id = $request->postid and modelo_post.user_id = modelo_user.user_id");
+
+        if ($post) {
+            $status = true;
+            $info = "Obtenido";
+            $data = $post;
+            return ResponseBuilder::result($status, $info, $data);
+        } else {
+            $status = false;
+            $info = "No existe";
+            $data = "";
+            return ResponseBuilder::result($status, $info, $data);
+        }
+
+    }
+
     public function borrar_poste(Request $request){
 
 

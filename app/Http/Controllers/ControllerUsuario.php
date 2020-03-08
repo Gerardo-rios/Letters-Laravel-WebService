@@ -143,9 +143,15 @@ class ControllerUsuario extends BaseController
 
         $user = Usuario::find($request->id);
         if ($user) {
-            return response()->json(["msg" => "ok", "user" => $user]);
+            $status = true;
+            $info = "Obtenido";
+            $data = $user;
+            return ResponseBuilder::result($status, $info, $data);
         } else {
-            return response()->json(["msg" => "bad", "user" => ""]);
+            $status = false;
+            $info = "no obtenido";
+            $data = "";
+            return ResponseBuilder::result($status, $info, $data);
         }
 
     }
