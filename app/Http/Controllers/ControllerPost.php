@@ -57,7 +57,7 @@ class ControllerPost extends BaseController
 
     public function posts_user_logeado(Request $request){
 
-        $posts = Post::where('user_id', $request->identificador)->get();
+        $posts = Post::where('user_id', $request->identificador)->orderBy('created_at', 'desc')->get();
         
         if ($posts) {
             $status = true;

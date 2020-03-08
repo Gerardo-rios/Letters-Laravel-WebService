@@ -97,21 +97,27 @@ class ControllerUsuario extends BaseController
     public function subirFotoPerfil(Request $request) 
     {
         //if ($request->isjson()) {
-            if ($request->hasFile('image')) {
-                $file = $request-> file('image');
-                $useridenti = $request -> identificador;
+        $ide = $request -> id;
+        $foto = $request -> foto;
+        $host = $request -> hos;
+        $user = Usuario::where('user_id', $ide)->first();
+        if ($user) {
+            
+            $path = "profile_pictures/$user->username.jpg";
+            file_put_contents($path, base64_decode($foto));
+            $bytesArchivo = file_get_contents($path);
 
-                $filename = Str::random(10) . '.' .$file->getClientOriginalExtension();
-        
-                $user = Usuario::where('user_id', $useridenti)->first();
-                $file->move($this->profilePicturesFolder,$filename);// subimos al servidor
-                $user-> foto_perfil = $filename; // guardamos el nombre en la bd
-                $user->save(); // guardamos los cambios.
+            $url = $host . '/' . $path;
+            $user->foto_perfil = '/' . '' . $path;
+            $user->save();
 
-                return response()->json(["msg" => "Foto subida exitosamente", "title" => "actualizada"]); 
-            } else {
-                return response()->json(["msg" => "No se esta enviado foto", "title" => "no foto"]); 
-            }
+            return response()->json(["msg" => "Actualizada", "title" => "OK"]);
+
+        } else {
+
+            return response()->json(["msg" => "No actualizada", "title" => "ERROR"]);
+
+        }
         
     }
 
