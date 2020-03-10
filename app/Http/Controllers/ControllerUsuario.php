@@ -42,7 +42,7 @@ class ControllerUsuario extends BaseController
                 $usuario -> correo = $request -> correo;
                 $usuario -> password = Hash::make($request -> password);
                 $usuario -> descripcion = "";
-                $usuario -> foto_perfil = "default_user.png";
+                $usuario -> foto_perfil = "/profile_pictures/default_user.png";
                 $usuario -> celular = $request -> telefono;
                 $usuario -> status = True;
                 $usuario -> external_id = UUID::uuid_v4();

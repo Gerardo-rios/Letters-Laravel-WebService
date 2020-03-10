@@ -16,7 +16,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix'=>'/usuario'], function($router){
-
+	
 	$router->post('/registrar', 'ControllerUsuario@registrarse');
 
 	$router->post('/logear', 'ControllerUsuario@logearse');
